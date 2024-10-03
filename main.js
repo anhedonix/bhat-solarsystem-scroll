@@ -1,14 +1,14 @@
 let scene, camera, renderer, planets = [];
 let sun, starField;
 const planetData = [
-    { name: 'Mercury', color: 0xC0C0C0, size: 0.8, distance: 20, diameter: 4879, dayLength: 1408, yearLength: 88 },
-    { name: 'Venus', color: 0xFFA500, size: 1.2, distance: 30, diameter: 12104, dayLength: 5832, yearLength: 225 },
-    { name: 'Earth', color: 0x0000FF, size: 1.5, distance: 40, diameter: 12742, dayLength: 24, yearLength: 365 },
-    { name: 'Mars', color: 0xFF0000, size: 1, distance: 50, diameter: 6779, dayLength: 25, yearLength: 687 },
-    { name: 'Jupiter', color: 0xFFA500, size: 3, distance: 70, diameter: 139820, dayLength: 10, yearLength: 4333 },
-    { name: 'Saturn', color: 0xFFD700, size: 2.5, distance: 90, diameter: 116460, dayLength: 11, yearLength: 10759 },
-    { name: 'Uranus', color: 0x00FFFF, size: 2, distance: 110, diameter: 50724, dayLength: 17, yearLength: 30687 },
-    { name: 'Neptune', color: 0x0000FF, size: 1.8, distance: 130, diameter: 49244, dayLength: 16, yearLength: 60190 }
+    { name: 'Mercury', color: 0xC0C0C0, size: 0.8, distance: 20, diameter: 4879, dayLength: 1408, yearLength: 88, moons: 0, revolutionTime: 88, axisTilt: 0.034 },
+    { name: 'Venus', color: 0xFFA500, size: 1.2, distance: 30, diameter: 12104, dayLength: 5832, yearLength: 225, moons: 0, revolutionTime: 225, axisTilt: 177.3 },
+    { name: 'Earth', color: 0x0000FF, size: 1.5, distance: 40, diameter: 12742, dayLength: 24, yearLength: 365, moons: 1, revolutionTime: 365.26, axisTilt: 23.5 },
+    { name: 'Mars', color: 0xFF0000, size: 1, distance: 50, diameter: 6779, dayLength: 25, yearLength: 687, moons: 2, revolutionTime: 687, axisTilt: 25.2 },
+    { name: 'Jupiter', color: 0xFFA500, size: 3, distance: 70, diameter: 139820, dayLength: 10, yearLength: 4333, moons: 79, revolutionTime: 4333, axisTilt: 3.1 },
+    { name: 'Saturn', color: 0xFFD700, size: 2.5, distance: 90, diameter: 116460, dayLength: 11, yearLength: 10759, moons: 82, revolutionTime: 10759, axisTilt: 26.7 },
+    { name: 'Uranus', color: 0x00FFFF, size: 2, distance: 110, diameter: 50724, dayLength: 17, yearLength: 30687, moons: 27, revolutionTime: 30687, axisTilt: 97.8 },
+    { name: 'Neptune', color: 0x0000FF, size: 1.8, distance: 130, diameter: 49244, dayLength: 16, yearLength: 60190, moons: 14, revolutionTime: 60190, axisTilt: 28.3 }
 ];
 
 function init() {
@@ -102,6 +102,9 @@ function createPlanets() {
                 <tr><td>Diameter</td><td>${planet.diameter.toLocaleString()} km</td></tr>
                 <tr><td>Day Length</td><td>${planet.dayLength} hours</td></tr>
                 <tr><td>Year Length</td><td>${planet.yearLength.toLocaleString()} Earth days</td></tr>
+                <tr><td>Number of Moons</td><td>${planet.moons}</td></tr>
+                <tr><td>Revolution Time</td><td>${planet.revolutionTime.toLocaleString()} Earth days</td></tr>
+                <tr><td>Axis Tilt</td><td>${planet.axisTilt}°</td></tr>
             </table>
         `;
         document.getElementById('planet-details').appendChild(detailSection);
