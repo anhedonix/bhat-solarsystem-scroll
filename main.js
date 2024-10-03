@@ -99,9 +99,9 @@ function createPlanets() {
             <h2>${planet.name}</h2>
             <table>
                 <tr><th>Property</th><th>Value</th></tr>
-                <tr><td>Diameter</td><td>${planet.diameter} km</td></tr>
+                <tr><td>Diameter</td><td>${planet.diameter.toLocaleString()} km</td></tr>
                 <tr><td>Day Length</td><td>${planet.dayLength} hours</td></tr>
-                <tr><td>Year Length</td><td>${planet.yearLength} Earth days</td></tr>
+                <tr><td>Year Length</td><td>${planet.yearLength.toLocaleString()} Earth days</td></tr>
             </table>
         `;
         document.getElementById('planet-details').appendChild(detailSection);
