@@ -138,7 +138,14 @@ function onScroll() {
 
     if (activePlanet) {
         const planetPosition = new THREE.Vector3(activePlanet.position.x, activePlanet.position.y, activePlanet.position.z);
-        const cameraOffset = new THREE.Vector3(15, 10, 20);
+        
+        // Calculate the distance to make the planet fill 60% of the screen
+        const planetSize = planetData[activePlanetIndex].size;
+        const vFov = camera.fov * Math.PI / 180;
+        const desiredHeight = planetSize * 2; // Diameter of the planet
+        const distance = (desiredHeight / 2) / Math.tan(vFov / 2) / 0.6; // 0.6 for 60% of screen space
+
+        const cameraOffset = new THREE.Vector3(0, 0, distance);
         const targetCameraPosition = planetPosition.clone().add(cameraOffset);
         camera.position.lerp(targetCameraPosition, 0.1);
         camera.lookAt(planetPosition);
