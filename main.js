@@ -42,9 +42,6 @@ function init() {
     // Add orbit lines
     addOrbitLines();
 
-    // Add planet labels
-    addPlanetLabels();
-
     // Handle window resize
     window.addEventListener('resize', onWindowResize, false);
 
@@ -200,9 +197,9 @@ function animate() {
         camera.lookAt(planetPosition);
     }
 
-    // Apply parallax effect
-    camera.position.x += (mouseX * 0.0005 - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY * 0.0005 - camera.position.y) * 0.05;
+    // Apply increased parallax effect
+    camera.position.x += (mouseX * 0.002 - camera.position.x) * 0.1;
+    camera.position.y += (-mouseY * 0.002 - camera.position.y) * 0.1;
 
     // Update planet positions
     const time = Date.now() * 0.0001;
@@ -235,20 +232,4 @@ function addOrbitLines() {
     });
 }
 
-function addPlanetLabels() {
-    const loader = new THREE.FontLoader();
-    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-        planets.forEach((planet, index) => {
-            const textGeometry = new THREE.TextGeometry(planetData[index].name, {
-                font: font,
-                size: 1,
-                height: 0.1,
-            });
-            const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-            textMesh.position.set(planet.position.x, planet.position.y + planetData[index].size + 2, planet.position.z);
-            scene.add(textMesh);
-        });
-    });
-}
 
