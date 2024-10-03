@@ -96,25 +96,8 @@ function addLights() {
 
 function createPlanets() {
     planetData.forEach((planet, index) => {
-        let planetGeometry, planetMaterial;
-        
-        if (planet.name === 'Earth') {
-            planetGeometry = new THREE.SphereGeometry(planet.size, 32, 32);
-            const dayTexture = new THREE.TextureLoader().load('path/to/earth_day_texture.jpg');
-            const nightTexture = new THREE.TextureLoader().load('path/to/earth_night_texture.jpg');
-            planetMaterial = new THREE.ShaderMaterial({
-                uniforms: {
-                    dayTexture: { value: dayTexture },
-                    nightTexture: { value: nightTexture },
-                    sunDirection: { value: new THREE.Vector3(1, 0, 0) }
-                },
-                vertexShader: earthShader.vertexShader,
-                fragmentShader: earthShader.fragmentShader
-            });
-        } else {
-            planetGeometry = new THREE.SphereGeometry(planet.size, 32, 32);
-            planetMaterial = new THREE.MeshPhongMaterial({ color: planet.color });
-        }
+        const planetGeometry = new THREE.SphereGeometry(planet.size, 32, 32);
+        const planetMaterial = new THREE.MeshPhongMaterial({ color: planet.color });
 
         const planetMesh = new THREE.Mesh(planetGeometry, planetMaterial);
         planetMesh.position.x = planet.distance;
@@ -269,28 +252,3 @@ function addPlanetLabels() {
     });
 }
 
-const earthShader = {
-    vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        void main() {
-            vUv = uv;
-            vNormal = normalize(normalMatrix * normal);
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-    `,
-    fragmentShader: `
-        uniform sampler2D dayTexture;
-        uniform sampler2D nightTexture;
-        uniform vec3 sunDirection;
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        void main() {
-            float intensity = dot(vNormal, sunDirection);
-            intensity = clamp(intensity, 0.0, 1.0);
-            vec4 dayColor = texture2D(dayTexture, vUv);
-            vec4 nightColor = texture2D(nightTexture, vUv);
-            gl_FragColor = mix(nightColor, dayColor, intensity);
-        }
-    `
-};
