@@ -1,14 +1,14 @@
 let scene, camera, renderer, planets = [];
 let sun, starField;
 const planetData = [
-    { name: 'Mercury', color: 0xC0C0C0, size: 0.8, distance: 20 },
-    { name: 'Venus', color: 0xFFA500, size: 1.2, distance: 30 },
-    { name: 'Earth', color: 0x0000FF, size: 1.5, distance: 40 },
-    { name: 'Mars', color: 0xFF0000, size: 1, distance: 50 },
-    { name: 'Jupiter', color: 0xFFA500, size: 3, distance: 70 },
-    { name: 'Saturn', color: 0xFFD700, size: 2.5, distance: 90 },
-    { name: 'Uranus', color: 0x00FFFF, size: 2, distance: 110 },
-    { name: 'Neptune', color: 0x0000FF, size: 1.8, distance: 130 }
+    { name: 'Mercury', color: 0xC0C0C0, size: 0.8, distance: 20, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mercury.jpg' },
+    { name: 'Venus', color: 0xFFA500, size: 1.2, distance: 30, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/venus_surface.jpg' },
+    { name: 'Earth', color: 0x0000FF, size: 1.5, distance: 40, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg' },
+    { name: 'Mars', color: 0xFF0000, size: 1, distance: 50, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mars.jpg' },
+    { name: 'Jupiter', color: 0xFFA500, size: 3, distance: 70, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/jupiter.jpg' },
+    { name: 'Saturn', color: 0xFFD700, size: 2.5, distance: 90, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/saturn.jpg' },
+    { name: 'Uranus', color: 0x00FFFF, size: 2, distance: 110, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/uranus.jpg' },
+    { name: 'Neptune', color: 0x0000FF, size: 1.8, distance: 130, textureUrl: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/neptune.jpg' }
 ];
 
 function init() {
@@ -17,7 +17,7 @@ function init() {
 
     // Create camera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 20, 50);
+    camera.position.set(50, 30, 100);
     camera.lookAt(0, 0, 0);
 
     // Create renderer
@@ -66,7 +66,9 @@ function createStarfield() {
 
 function createSun() {
     const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
-    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 });
+    const textureLoader = new THREE.TextureLoader();
+    const sunTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/sun.jpg');
+    const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
     sun = new THREE.Mesh(sunGeometry, sunMaterial);
     scene.add(sun);
 }
@@ -81,9 +83,12 @@ function addLights() {
 }
 
 function createPlanets() {
+    const textureLoader = new THREE.TextureLoader();
+
     planetData.forEach((planet, index) => {
         const planetGeometry = new THREE.SphereGeometry(planet.size, 32, 32);
-        const planetMaterial = new THREE.MeshStandardMaterial({ color: planet.color });
+        const texture = textureLoader.load(planet.textureUrl);
+        const planetMaterial = new THREE.MeshStandardMaterial({ map: texture });
         const planetMesh = new THREE.Mesh(planetGeometry, planetMaterial);
         planetMesh.position.x = planet.distance;
         planets.push(planetMesh);
@@ -124,7 +129,9 @@ function onScroll() {
 
     if (activePlanet) {
         const planetPosition = new THREE.Vector3(activePlanet.position.x, activePlanet.position.y, activePlanet.position.z);
-        camera.position.lerp(planetPosition, 0.1);
+        const cameraOffset = new THREE.Vector3(20, 15, 30);
+        const targetCameraPosition = planetPosition.clone().add(cameraOffset);
+        camera.position.lerp(targetCameraPosition, 0.1);
         camera.lookAt(planetPosition);
     }
 
