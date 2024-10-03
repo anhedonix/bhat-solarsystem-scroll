@@ -1,14 +1,14 @@
 let scene, camera, renderer, planets = [];
 let sun, starField;
 const planetData = [
-    { name: 'Mercury', color: 0xC0C0C0, size: 0.8, distance: 20 },
-    { name: 'Venus', color: 0xFFA500, size: 1.2, distance: 30 },
-    { name: 'Earth', color: 0x0000FF, size: 1.5, distance: 40 },
-    { name: 'Mars', color: 0xFF0000, size: 1, distance: 50 },
-    { name: 'Jupiter', color: 0xFFA500, size: 3, distance: 70 },
-    { name: 'Saturn', color: 0xFFD700, size: 2.5, distance: 90 },
-    { name: 'Uranus', color: 0x00FFFF, size: 2, distance: 110 },
-    { name: 'Neptune', color: 0x0000FF, size: 1.8, distance: 130 }
+    { name: 'Mercury', color: 0xC0C0C0, size: 0.8, distance: 20, diameter: 4879, dayLength: 1408, yearLength: 88 },
+    { name: 'Venus', color: 0xFFA500, size: 1.2, distance: 30, diameter: 12104, dayLength: 5832, yearLength: 225 },
+    { name: 'Earth', color: 0x0000FF, size: 1.5, distance: 40, diameter: 12742, dayLength: 24, yearLength: 365 },
+    { name: 'Mars', color: 0xFF0000, size: 1, distance: 50, diameter: 6779, dayLength: 25, yearLength: 687 },
+    { name: 'Jupiter', color: 0xFFA500, size: 3, distance: 70, diameter: 139820, dayLength: 10, yearLength: 4333 },
+    { name: 'Saturn', color: 0xFFD700, size: 2.5, distance: 90, diameter: 116460, dayLength: 11, yearLength: 10759 },
+    { name: 'Uranus', color: 0x00FFFF, size: 2, distance: 110, diameter: 50724, dayLength: 17, yearLength: 30687 },
+    { name: 'Neptune', color: 0x0000FF, size: 1.8, distance: 130, diameter: 49244, dayLength: 16, yearLength: 60190 }
 ];
 
 function init() {
@@ -92,7 +92,15 @@ function createPlanets() {
         // Add planet details section to HTML
         const detailSection = document.createElement('section');
         detailSection.className = 'planet-section';
-        detailSection.innerHTML = `<h2>${planet.name}</h2><p>Details about ${planet.name} go here.</p>`;
+        detailSection.innerHTML = `
+            <h2>${planet.name}</h2>
+            <table>
+                <tr><th>Property</th><th>Value</th></tr>
+                <tr><td>Diameter</td><td>${planet.diameter} km</td></tr>
+                <tr><td>Day Length</td><td>${planet.dayLength} hours</td></tr>
+                <tr><td>Year Length</td><td>${planet.yearLength} Earth days</td></tr>
+            </table>
+        `;
         document.getElementById('planet-details').appendChild(detailSection);
 
         // Add planet to menu
