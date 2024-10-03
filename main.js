@@ -43,6 +43,9 @@ function init() {
     // Add scroll listener
     window.addEventListener('scroll', onScroll, false);
 
+    // Hide loading screen
+    document.getElementById('loading-screen').style.display = 'none';
+
     // Start animation loop
     animate();
 }
