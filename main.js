@@ -17,7 +17,7 @@ function init() {
 
     // Create camera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(50, 30, 100);
+    camera.position.set(30, 20, 60);
     camera.lookAt(0, 0, 0);
 
     // Create renderer
@@ -77,7 +77,7 @@ function addLights() {
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xFFFFFF, 1, 100);
+    const pointLight = new THREE.PointLight(0xFFFFFF, 1);
     pointLight.position.set(0, 0, 0);
     scene.add(pointLight);
 }
@@ -129,7 +129,7 @@ function onScroll() {
 
     if (activePlanet) {
         const planetPosition = new THREE.Vector3(activePlanet.position.x, activePlanet.position.y, activePlanet.position.z);
-        const cameraOffset = new THREE.Vector3(20, 15, 30);
+        const cameraOffset = new THREE.Vector3(15, 10, 20);
         const targetCameraPosition = planetPosition.clone().add(cameraOffset);
         camera.position.lerp(targetCameraPosition, 0.1);
         camera.lookAt(planetPosition);
